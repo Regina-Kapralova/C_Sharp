@@ -29,7 +29,7 @@ namespace Lab1
 				if (contenders.ContainsKey(value) == true)
 				{
 					contender = new Contender(contenders[value], value, number);
-					Console.WriteLine(number + ") " + contenders[value] + " " + value);
+					Console.WriteLine(contenders[value]);
 					IContender c = contender;
 					number++;
 					contenders.Remove(value);
@@ -41,15 +41,13 @@ namespace Lab1
 				}
 			}
 		}
-		public static int Get_married()
+		public static void Get_married()
 		{
 			Console.WriteLine((contender.Mark > 50) ? contender.Mark : 0);
-			return (contender.Mark > 50) ? contender.Mark : 0;
 		}
-		public static int Dont_get_married()
+		public static void Dont_get_married()
 		{
 			Console.WriteLine(10);
-			return 10;
 		}
 	}
 }

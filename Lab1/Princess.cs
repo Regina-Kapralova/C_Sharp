@@ -33,27 +33,22 @@ namespace Lab1
 		}
 		public static void Selection()
 		{
-			StreamWriter sw = new StreamWriter("C:\\Users\\Регина\\OneDrive\\Рабочий стол\\Programming\\C#\\Lab1\\out.txt", true);
 			IContender contender;
 			for (int i = 1; i < 30; i++)
 			{
 				contender = Hall.Invite_contender();
-				sw.WriteLine(contender.Name);
 				Skip_and_sort(contender);
 			}
 			while ((contender = Hall.Invite_contender()) != null)
 			{
-				sw.WriteLine(contender.Name);
 				if (Friend.Compare(contender, ex_contenders[ex_contenders.Count - 2]) == contender)
 				{
-					sw.WriteLine(Hall.Get_married());
-					sw.Close();
+					Hall.Get_married();
 					return;
 				}
 				Skip_and_sort(contender);
 			}
-			sw.WriteLine(Hall.Dont_get_married());
-			sw.Close();
+			Hall.Dont_get_married();
 			return;
 		}
 	}
