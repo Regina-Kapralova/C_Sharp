@@ -2,6 +2,6 @@
 **/bin
 **/obj
 **/Properties
-*/.config
-*/.sln
-*/.csproj
+*.csproj
+*.sln
+*.config
