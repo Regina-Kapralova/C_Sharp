@@ -6,8 +6,8 @@ namespace PickyBrideProblem
     {
         static void Main(string[] args)
         {
-			Hall.Start();
-			Princess.SelectBridegroom();
+            Hall.Start();
+            Princess.SelectBridegroom();
         }
     }
 }
