@@ -1,10 +1,8 @@
 ﻿
-namespace Lab1
+namespace PickyBrideProblem
 {
     interface IContender
     {
         string Name { get; }
-        int Number { get; }
-
     }
 }

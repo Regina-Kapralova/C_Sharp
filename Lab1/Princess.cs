@@ -1,24 +1,25 @@
 ﻿using System.IO;
 using System.Collections.Generic;
 
-namespace Lab1
+namespace PickyBrideProblem
 {
 	static class Princess
 	{
-		private static readonly List<IContender> ex_contenders = new List<IContender>();
-		public static void Skip_and_sort(IContender contender)
+		private static readonly List<IContender> _exContenders = new List<IContender>();
+
+		private static void SkipContender(IContender contender)
 		{
 			if (contender == null) return;
-			int start = 0, end = ex_contenders.Count;
-			if (end > 0 && Friend.Compare(contender, ex_contenders[0]) != contender)
+			int start = 0, end = _exContenders.Count;
+			if (end > 0 && Friend.Compare(contender, _exContenders[0]) != contender)
 			{
-				ex_contenders.Insert(0, contender);
+				_exContenders.Insert(0, contender);
 				return;
 			}
 			int center = (end - start) / 2;
 			while (end - start > 1)
 			{
-				if (Friend.Compare(contender, ex_contenders[center]) == contender)
+				if (Friend.Compare(contender, _exContenders[center]) == contender)
 				{
 					start = center;
 					center = (end - start) / 2 + start;
@@ -29,24 +30,25 @@ namespace Lab1
 					center = (end - start) / 2;
 				}
 			}
-			ex_contenders.Insert(end, contender);
+			_exContenders.Insert(end, contender);
 		}
-		public static void Selection()
+
+		public static void SelectBridegroom()
 		{
 			IContender contender;
 			for (int i = 1; i < 30; i++)
 			{
-				contender = Hall.Invite_contender();
-				Skip_and_sort(contender);
+				contender = Hall.InviteContender();
+				SkipContender(contender);
 			}
-			while ((contender = Hall.Invite_contender()) != null)
+			while ((contender = Hall.InviteContender()) != null)
 			{
-				if (Friend.Compare(contender, ex_contenders[ex_contenders.Count - 2]) == contender)
+				if (Friend.Compare(contender, _exContenders[_exContenders.Count - 2]) == contender)
 				{
 					Hall.Get_married();
 					return;
 				}
-				Skip_and_sort(contender);
+				SkipContender(contender);
 			}
 			Hall.Dont_get_married();
 			return;
