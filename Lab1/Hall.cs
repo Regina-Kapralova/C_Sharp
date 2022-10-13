@@ -45,7 +45,7 @@ namespace PickyBrideProblem
 
         public static bool IsInHall(int mark)
         {
-        return (_contenders.ContainsKey(mark)) ? true : false;
+            return (_contenders.ContainsKey(mark)) ? true : false;
         }
 
         public static void GetMarried()
