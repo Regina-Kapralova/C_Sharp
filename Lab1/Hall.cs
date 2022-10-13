@@ -3,14 +3,16 @@ using System.IO;
 using System.Collections.Generic;
 namespace PickyBrideProblem
 {
-    static class Hall
+    class Hall
     {
-        private static readonly Dictionary<int, string> _contenders = new Dictionary<int, string>();
-        private static Contender _contender;
+        public const int countContenders = 100;
+        private Dictionary<int, string> _contenders = new Dictionary<int, string>();
+        private const int lowerLimitCoolnessOfContender = 50;
+        private const int levelHappinessUnmarriedPrincess = 10;
+        private const int princessIsUnhappy = 0;
 
-        public static void Start()
+        public void Start()
         {
-            const int countContenders = 100;
             String line;
             StreamReader sr = new StreamReader("OneHundredUniqueNames.txt");
             for (int i = 1; i <= countContenders; i++)
@@ -21,7 +23,7 @@ namespace PickyBrideProblem
             sr.Close();
         }
 
-        public static IContender InviteContender()
+        public IContender InviteContender()
         {
             if (_contenders.Count <= 0) return null;
             Random rnd = new Random();
@@ -30,11 +32,10 @@ namespace PickyBrideProblem
                 int value = rnd.Next(1, 101);
                 if (_contenders.ContainsKey(value))
                 {
-                    _contender = new Contender(_contenders[value], value);
-                    Console.WriteLine(_contenders[value]);
-                    IContender c = _contender;
+                    IContender contender = new Contender(_contenders[value], value);
+                    Console.WriteLine(_contenders[value], value);
                     _contenders.Remove(value);
-                    return c;
+                    return contender;
                 }
                 else
                 {
@@ -43,19 +44,24 @@ namespace PickyBrideProblem
             }
         }
 
-        public static bool IsInHall(int mark)
+        public bool IsInHall(int mark)
         {
             return (_contenders.ContainsKey(mark)) ? true : false;
         }
 
-        public static void GetMarried()
+        public int GetLevelHappinessPrincess(IContender contender)
         {
-            Console.WriteLine((_contender.Mark > 50) ? _contender.Mark : 0);
-        }
-
-        public static void DontGetMarried()
-        {
-            Console.WriteLine(10);
-        }
+            if (contender == null)
+            {
+                return levelHappinessUnmarriedPrincess;
+            }
+            else
+            {
+                int levelCoolnessOfContender = ((Contender)contender).Mark;
+                int levelHappinessPrincess = (levelCoolnessOfContender > lowerLimitCoolnessOfContender) 
+                    ? levelCoolnessOfContender : princessIsUnhappy;
+                return levelHappinessPrincess;
+            }
+        }   
     }
 }

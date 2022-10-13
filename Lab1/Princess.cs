@@ -1,17 +1,28 @@
 ﻿using System.IO;
 using System.Collections.Generic;
+using System;
 
 namespace PickyBrideProblem
 {
-    static class Princess
+    class Princess
     {
-        private static readonly List<IContender> _exContenders = new List<IContender>();
+        private Hall _hall;
+        private Friend _friend;
+        private List<IContender> _exContenders;
+        private int levelHappinessPrincess;
 
-        private static void SkipContender(IContender contender)
+        public Princess(Hall hall, Friend friend)
+        {
+            _hall = hall;
+            _friend = friend;
+            _exContenders = new List<IContender>();
+        }
+
+        private void SkipContender(IContender contender)
         {
             if (contender == null) return;
             int start = 0, end = _exContenders.Count;
-            if (end > 0 && Friend.Compare(contender, _exContenders[0]) != contender)
+            if (end > 0 && _friend.Compare(contender, _exContenders[0]) != contender)
             {
                 _exContenders.Insert(0, contender);
                 return;
@@ -19,7 +30,7 @@ namespace PickyBrideProblem
             int center = (end - start) / 2;
             while (end - start > 1)
             {
-                if (Friend.Compare(contender, _exContenders[center]) == contender)
+                if (_friend.Compare(contender, _exContenders[center]) == contender)
                 {
                     start = center;
                     center = (end - start) / 2 + start;
@@ -33,25 +44,31 @@ namespace PickyBrideProblem
             _exContenders.Insert(end, contender);
         }
 
-        public static void SelectBridegroom()
+        public void SelectBridegroom()
         {
             IContender contender;
-            for (int i = 1; i < 30; i++)
+            const double partSkipedContenders = 0.3;
+            for (int i = 1; i < partSkipedContenders * Hall.countContenders; i++)
             {
-                contender = Hall.InviteContender();
+                contender = _hall.InviteContender();
                 SkipContender(contender);
             }
-            while ((contender = Hall.InviteContender()) != null)
+            while ((contender = _hall.InviteContender()) != null)
             {
-                if (Friend.Compare(contender, _exContenders[_exContenders.Count - 2]) == contender)
+                if (_friend.Compare(contender, _exContenders[_exContenders.Count - 2]) == contender)
                 {
-                    Hall.GetMarried();
+                    ChooseContender(contender);
                     return;
                 }
                 SkipContender(contender);
             }
-            Hall.DontGetMarried();
+            ChooseContender(null);
             return;
+        }
+        private void ChooseContender(IContender contender)
+        {
+            levelHappinessPrincess = _hall.GetLevelHappinessPrincess(contender);
+            Console.WriteLine(levelHappinessPrincess);
         }
     }
 }
