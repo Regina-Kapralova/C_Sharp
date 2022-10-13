@@ -33,7 +33,7 @@ namespace PickyBrideProblem
                 if (_contenders.ContainsKey(value))
                 {
                     IContender contender = new Contender(_contenders[value], value);
-                    Console.WriteLine(_contenders[value], value);
+                    Console.WriteLine(_contenders[value]);
                     _contenders.Remove(value);
                     return contender;
                 }

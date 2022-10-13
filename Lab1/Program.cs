@@ -11,7 +11,6 @@ namespace PickyBrideProblem
             Friend friend = new Friend(hall);
             Princess princess = new Princess(hall, friend);
             princess.SelectBridegroom();
-            Console.ReadLine();
         }
     }
 }
