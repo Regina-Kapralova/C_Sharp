@@ -8,7 +8,7 @@
             int mark2 = ((Contender)contender2).Mark;
             if (Hall.IsInHall(mark1) || Hall.IsInHall(mark2))
             {
-            return null;
+                return null;
             }
             return (mark1 >= mark2) ? contender1 : contender2;
         }

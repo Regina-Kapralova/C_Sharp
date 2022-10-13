@@ -45,12 +45,12 @@ namespace PickyBrideProblem
             {
                 if (Friend.Compare(contender, _exContenders[_exContenders.Count - 2]) == contender)
                 {
-                    Hall.Get_married();
+                    Hall.GetMarried();
                     return;
                 }
                 SkipContender(contender);
             }
-            Hall.Dont_get_married();
+            Hall.DontGetMarried();
             return;
         }
     }

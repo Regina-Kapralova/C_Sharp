@@ -8,7 +8,6 @@ namespace PickyBrideProblem
         {
             Hall.Start();
             Princess.SelectBridegroom();
-            Console.ReadLine();
         }
     }
 }
