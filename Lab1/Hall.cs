@@ -3,8 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 namespace PickyBrideProblem
 {
-	static class Hall
-	{
+    static class Hall
+    {
         private static readonly Dictionary<int, string> _contenders = new Dictionary<int, string>();
         private static Contender _contender;
 
