@@ -10,9 +10,10 @@ namespace PickyBrideProblem
 
         public static void Start()
         {
+            const int countContenders = 100;
             String line;
             StreamReader sr = new StreamReader("OneHundredUniqueNames.txt");
-            for (int i = 1; i <= 100; i++)
+            for (int i = 1; i <= countContenders; i++)
             {
                 line = sr.ReadLine();
                 _contenders.Add(i, line);
@@ -42,12 +43,17 @@ namespace PickyBrideProblem
             }
         }
 
-        public static void Get_married()
+        public static bool IsInHall(int mark)
+        {
+        return (_contenders.ContainsKey(mark)) ? true : false;
+        }
+
+        public static void GetMarried()
         {
             Console.WriteLine((_contender.Mark > 50) ? _contender.Mark : 0);
         }
 
-        public static void Dont_get_married()
+        public static void DontGetMarried()
         {
             Console.WriteLine(10);
         }
