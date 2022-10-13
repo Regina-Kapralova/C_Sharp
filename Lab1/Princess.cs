@@ -13,8 +13,8 @@ namespace PickyBrideProblem
             int start = 0, end = _exContenders.Count;
             if (end > 0 && Friend.Compare(contender, _exContenders[0]) != contender)
 			{
-				_exContenders.Insert(0, contender);
-				return;
+                _exContenders.Insert(0, contender);
+                return;
 			}
             int center = (end - start) / 2;
             while (end - start > 1)
