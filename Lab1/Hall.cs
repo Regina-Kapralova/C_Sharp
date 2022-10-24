@@ -60,9 +60,13 @@ namespace PickyBrideProblem
 
         public int GetMark(IContender contender)
         {
-            if (_selectionIsFinished || !(contender is Contender))
+            if (_selectionIsFinished)
             {
-                return 0;
+                throw new Exception("Error: Princess is already married");
+            }
+            if (!(contender is Contender))
+            {
+                throw new Exception("Error: incorrect type of contender in class Hall.");
             }
             else
             {
