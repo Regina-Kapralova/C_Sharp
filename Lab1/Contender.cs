@@ -1,6 +1,9 @@
 ﻿
 namespace PickyBrideProblem
 {
+    /// <summary>
+    /// Contender is man who can become Princess's husband. Contender has unique name and unique mark from 1 to 100. 
+    /// </summary>
     class Contender : IContender
     {
         public string Name { get; private set; }

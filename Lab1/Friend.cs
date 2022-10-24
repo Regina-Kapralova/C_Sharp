@@ -1,21 +1,26 @@
 ﻿namespace PickyBrideProblem
 {
+    /// <summary>
+    /// Friend compare two contenders, who already meet Princess
+    /// </summary>
     class Friend
     {
         private Hall _hall;
+
         public Friend(Hall hall)
         {
             _hall = hall;
         }
+
         public IContender Compare(IContender contender1, IContender contender2)
         {
-            int mark1 = ((Contender)contender1).Mark;
-            int mark2 = ((Contender)contender2).Mark;
-            if (_hall.IsInHall(mark1) || _hall.IsInHall(mark2))
+            /// if (contender is not Contender or Princess didn't meet this contender yet) do not compare
+            if (_hall.IsInHall(contender1.Name) || _hall.IsInHall(contender2.Name) 
+                || (!(contender1 is Contender && contender2 is Contender)))
             {
                 return null;
             }
-            return (mark1 >= mark2) ? contender1 : contender2;
+            return (((Contender)contender1).Mark >= ((Contender)contender2).Mark) ? contender1 : contender2;
         }
     }
 }
