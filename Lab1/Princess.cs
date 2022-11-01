@@ -65,7 +65,7 @@ namespace PickyBrideProblem
             IContender contender;
             /// Princess skiped 30% contenders
             const double partSkipedContenders = 0.3;
-            for (int i = 1; i < partSkipedContenders * Hall.AmountContenders; i++)
+            for (int i = 1; i < partSkipedContenders * Hall.AmountOfContenders; i++)
             {
                 contender = _hall.InviteContender();
                 SkipContender(contender);

@@ -8,7 +8,7 @@ namespace PickyBrideProblem
     /// </summary>
     class Hall
     {
-        public const int AmountContenders = 100;
+        public const int AmountOfContenders = 100;
         private readonly Dictionary<int, string> _contenders = new Dictionary<int, string>();
         private bool _selectionIsFinished = false;
 
@@ -19,7 +19,7 @@ namespace PickyBrideProblem
         {
             String line;
             StreamReader sr = new StreamReader("OneHundredUniqueNames.txt");
-            for (int i = 1; i <= AmountContenders; i++)
+            for (int i = 1; i <= AmountOfContenders; i++)
             {
                 line = sr.ReadLine();
                 _contenders.Add(i, line);
@@ -55,7 +55,7 @@ namespace PickyBrideProblem
 
         public bool IsInHall(string name)
         {
-            return (_contenders.ContainsValue(name)) ? true : false;
+            return _contenders.ContainsValue(name);
         }
 
         public int GetMark(IContender contender)
