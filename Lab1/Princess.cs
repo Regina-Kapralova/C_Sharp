@@ -95,7 +95,7 @@ namespace PickyBrideProblem
             {
                 _levelHappinessPrincess = LevelHappinessUnmarriedPrincess;
             }
-            int mark = _hall.GetMark(contender);
+            int mark = _hall.GetMark(contender.Name);
             _levelHappinessPrincess = (mark > LowerLimitCoolnessOfContender) ? mark : PrincessIsUnhappy;
             Console.WriteLine(_levelHappinessPrincess);
         }

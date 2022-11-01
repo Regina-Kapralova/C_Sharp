@@ -10,6 +10,7 @@ namespace PickyBrideProblem
     {
         public const int AmountOfContenders = 100;
         private readonly Dictionary<int, string> _contenders = new Dictionary<int, string>();
+        private readonly Dictionary<string, int> _exContenders = new Dictionary<string, int>();
         private bool _selectionIsFinished = false;
 
         /// <summary>
@@ -41,10 +42,11 @@ namespace PickyBrideProblem
                 int value = rnd.Next(minContendersMark, maxContendersMark + 1);
                 if (_contenders.ContainsKey(value))
                 {
-                    IContender contender = new Contender(_contenders[value], value);
-                    Console.WriteLine(_contenders[value]);
+                    Contender contender = new Contender(_contenders[value], value);
+                    Console.WriteLine(contender.Name);
+                    _exContenders.Add(contender.Name, contender.Mark);
                     _contenders.Remove(value);
-                    return contender;
+                    return (IContender)contender;
                 }
                 else
                 {
@@ -58,20 +60,21 @@ namespace PickyBrideProblem
             return _contenders.ContainsValue(name);
         }
 
-        public int GetMark(IContender contender)
+        public bool Compare(string name1, string name2)
+        {
+            return _exContenders[name1] >= _exContenders[name2];
+        }
+
+        public int GetMark(string name)
         {
             if (_selectionIsFinished)
             {
                 throw new Exception("Error: Princess is already married");
             }
-            if (!(contender is Contender))
-            {
-                throw new Exception("Error: incorrect type of contender in class Hall.");
-            }
             else
             {
                 _selectionIsFinished = true;
-                return ((Contender)contender).Mark;
+                return _exContenders[name];
             }
         }   
     }
