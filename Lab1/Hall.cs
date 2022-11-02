@@ -6,9 +6,9 @@ namespace PickyBrideProblem
     /// <summary>
     /// This is Hall, where contenders wait to meet Princess.
     /// </summary>
-    class Hall
+    class Hall : IHallForPrincess, IHallForFriend
     {
-        public const int AmountOfContenders = 100;
+        public int AmountOfContenders { get; } = 100;
         private readonly Dictionary<int, string> _contenders = new Dictionary<int, string>();
         private readonly Dictionary<string, int> _exContenders = new Dictionary<string, int>();
         private bool _selectionIsFinished = false;
@@ -60,12 +60,12 @@ namespace PickyBrideProblem
             return _contenders.ContainsValue(name);
         }
 
-        public bool Compare(string name1, string name2)
+        public int GetMarkForFriend(string name)
         {
-            return _exContenders[name1] >= _exContenders[name2];
+            return _exContenders[name];
         }
 
-        public int GetMark(string name)
+        public int GetMarkForPrincess(string name)
         {
             if (_selectionIsFinished)
             {

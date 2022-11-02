@@ -8,8 +8,8 @@ namespace PickyBrideProblem
         {
             Hall hall = new Hall();
             hall.Start();
-            Friend friend = new Friend(hall);
-            Princess princess = new Princess(hall, friend);
+            Friend friend = new Friend((IHallForFriend)hall);
+            Princess princess = new Princess((IHallForPrincess)hall, friend);
             princess.SelectBridegroom();
         }
     }
