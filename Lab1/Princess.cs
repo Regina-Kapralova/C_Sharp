@@ -1,22 +1,24 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PickyBrideProblem
 {
     /// <summary>
     /// Princess wants to get married successfully.
     /// </summary>
-    class Princess
+    class Princess : IHostedService
     {
         private IHallForPrincess _hall;
         private Friend _friend;
         //  sorted list of contenders, who was not chosen by princess 
         private readonly List<IContender> _exContenders;
         private int _levelHappinessPrincess;
-        private const int LowerLimitCoolnessOfContender = 50;
-        private const int LevelHappinessUnmarriedPrincess = 10;
-        private const int PrincessIsUnhappy = 0;
+        private IHostApplicationLifetime _lifeTime;
 
         public Princess(IHallForPrincess hall, Friend friend)
         {
@@ -93,6 +95,35 @@ namespace PickyBrideProblem
         {
             if (contender == null)
             {
+                _levelHappinessPrincess = 0;
+                return;
+            }
+            int mark = _hall.GetMarkForPrincess(contender.Name);
+            if (mark == 100)
+            {
+                _levelHappinessPrincess = 20;
+            }
+            else if (mark == 98)
+            {
+                _levelHappinessPrincess = 50;
+            }
+            else if (mark == 96)
+            {
+                _levelHappinessPrincess = 100;
+            }
+            else
+            {
+                _levelHappinessPrincess = 0;
+            }
+        }
+
+        /*private void ChooseContender(IContender contender)
+        {
+            const int LowerLimitCoolnessOfContender = 50;
+            const int LevelHappinessUnmarriedPrincess = 10;
+            const int PrincessIsUnhappy = 0;
+            if (contender == null)
+            {
                 _levelHappinessPrincess = LevelHappinessUnmarriedPrincess;
             }
             else
@@ -100,7 +131,29 @@ namespace PickyBrideProblem
                 int mark = _hall.GetMarkForPrincess(contender.Name);
                 _levelHappinessPrincess = (mark > LowerLimitCoolnessOfContender) ? mark : PrincessIsUnhappy;
             }
-            Console.WriteLine(_levelHappinessPrincess);
+        }*/
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                SelectBridegroom();
+                Console.WriteLine(_levelHappinessPrincess);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                _lifeTime.StopApplication();
+            }
+            return Task.CompletedTask;
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
         }
     }
 }
