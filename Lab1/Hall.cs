@@ -14,9 +14,9 @@ namespace PickyBrideProblem
         private bool _selectionIsFinished = false;
         ContenderGenerator _contenderGenerator;
 
-        public Hall()
+        public Hall(ContenderGenerator contenderGenerator)
         {
-            _contenderGenerator = new ContenderGenerator();
+            _contenderGenerator = contenderGenerator;
             for (int i = 0; i < AmountOfContenders; i++)
             {
                 _contenders.Add(_contenderGenerator.GenerateContender());
