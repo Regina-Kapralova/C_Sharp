@@ -16,15 +16,13 @@ namespace PickyBrideProblem
             return Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    ContenderGenerator contenderGenerator = new ContenderGenerator();
-                    Hall hall = new Hall(contenderGenerator);
                     services.AddHostedService<Princess>();
-                    services.AddScoped<IHallForPrincess>(sp => hall);
-                    services.AddScoped<IHallForFriend>(sp => hall);
+                    services.AddScoped<Hall>();
+                    services.AddScoped<IHallForPrincess>(sp => sp.GetRequiredService<Hall>());
+                    services.AddScoped<IHallForFriend>(sp => sp.GetRequiredService<Hall>());
                     services.AddScoped<Friend>();
-                    services.AddScoped<ContenderGenerator>(sp => contenderGenerator);
+                    services.AddScoped<ContenderGenerator>();
                 });
         }
-
     }
 }

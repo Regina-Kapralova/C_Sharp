@@ -12,11 +12,16 @@ namespace PickyBrideProblem
         private readonly List<Contender> _contenders = new List<Contender>();
         private readonly Dictionary<string, int> _exContenders = new Dictionary<string, int>();
         private bool _selectionIsFinished = false;
-        ContenderGenerator _contenderGenerator;
+        private readonly ContenderGenerator _contenderGenerator;
 
         public Hall(ContenderGenerator contenderGenerator)
         {
             _contenderGenerator = contenderGenerator;
+        }
+
+        public void Init()
+        {
+            _contenderGenerator.Init();
             for (int i = 0; i < AmountOfContenders; i++)
             {
                 _contenders.Add(_contenderGenerator.GenerateContender());

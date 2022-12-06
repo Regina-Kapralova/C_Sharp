@@ -64,6 +64,7 @@ namespace PickyBrideProblem
         /// </summary>
         public void SelectBridegroom()
         {
+            _hall.Init();
             IContender contender;
             // Princess skiped 30% contenders
             const double partSkipedContenders = 0.3;
@@ -93,45 +94,33 @@ namespace PickyBrideProblem
         /// </summary>
         private void ChooseContender(IContender contender)
         {
+            const int PrincessIsUnhappy = 0;
+            const int LevelHappinessPrincessMarriedFirstContender = 20;
+            const int LevelHappinessPrincessMarriedThirdContender = 50;
+            const int LevelHappinessPrincessMarriedАifthContender = 100;
             if (contender == null)
             {
-                _levelHappinessPrincess = 0;
+                _levelHappinessPrincess = PrincessIsUnhappy;
                 return;
             }
             int mark = _hall.GetMarkForPrincess(contender.Name);
             if (mark == 100)
             {
-                _levelHappinessPrincess = 20;
+                _levelHappinessPrincess = LevelHappinessPrincessMarriedFirstContender;
             }
             else if (mark == 98)
             {
-                _levelHappinessPrincess = 50;
+                _levelHappinessPrincess = LevelHappinessPrincessMarriedThirdContender;
             }
             else if (mark == 96)
             {
-                _levelHappinessPrincess = 100;
+                _levelHappinessPrincess = LevelHappinessPrincessMarriedАifthContender;
             }
             else
             {
-                _levelHappinessPrincess = 0;
+                _levelHappinessPrincess = PrincessIsUnhappy;
             }
         }
-
-        /*private void ChooseContender(IContender contender)
-        {
-            const int LowerLimitCoolnessOfContender = 50;
-            const int LevelHappinessUnmarriedPrincess = 10;
-            const int PrincessIsUnhappy = 0;
-            if (contender == null)
-            {
-                _levelHappinessPrincess = LevelHappinessUnmarriedPrincess;
-            }
-            else
-            {
-                int mark = _hall.GetMarkForPrincess(contender.Name);
-                _levelHappinessPrincess = (mark > LowerLimitCoolnessOfContender) ? mark : PrincessIsUnhappy;
-            }
-        }*/
 
         public Task StartAsync(CancellationToken cancellationToken)
         {

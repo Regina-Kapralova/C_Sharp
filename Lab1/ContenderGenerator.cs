@@ -12,9 +12,9 @@ namespace PickyBrideProblem
         public int AmountOfContenders { get; } = 100;
         private readonly Dictionary<int, string> _contenders = new Dictionary<int, string>();
 
-        public ContenderGenerator()
+        public void Init()
         {
-            String line;
+            string line;
             StreamReader sr = new StreamReader("OneHundredUniqueNames.txt");
             for (int i = 1; i <= AmountOfContenders; i++)
             {
