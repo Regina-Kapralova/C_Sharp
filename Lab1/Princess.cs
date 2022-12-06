@@ -97,7 +97,7 @@ namespace PickyBrideProblem
             const int PrincessIsUnhappy = 0;
             const int LevelHappinessPrincessMarriedFirstContender = 20;
             const int LevelHappinessPrincessMarriedThirdContender = 50;
-            const int LevelHappinessPrincessMarriedАifthContender = 100;
+            const int LevelHappinessPrincessMarriedFifthContender = 100;
             if (contender == null)
             {
                 _levelHappinessPrincess = PrincessIsUnhappy;
@@ -114,7 +114,7 @@ namespace PickyBrideProblem
             }
             else if (mark == 96)
             {
-                _levelHappinessPrincess = LevelHappinessPrincessMarriedАifthContender;
+                _levelHappinessPrincess = LevelHappinessPrincessMarriedFifthContender;
             }
             else
             {
