@@ -9,23 +9,23 @@ namespace PickyBrideProblem
     class Hall : IHallForPrincess, IHallForFriend
     {
         public int AmountOfContenders { get; } = 100;
-        private readonly Dictionary<int, string> _contenders = new Dictionary<int, string>();
+        private readonly List<Contender> _contenders = new List<Contender>();
         private readonly Dictionary<string, int> _exContenders = new Dictionary<string, int>();
         private bool _selectionIsFinished = false;
+        private readonly ContenderGenerator _contenderGenerator;
 
-        /// <summary>
-        /// Creating list of contender.
-        /// </summary>
-        public void Start()
+        public Hall(ContenderGenerator contenderGenerator)
         {
-            String line;
-            StreamReader sr = new StreamReader("OneHundredUniqueNames.txt");
-            for (int i = 1; i <= AmountOfContenders; i++)
+            _contenderGenerator = contenderGenerator;
+        }
+
+        public void Init()
+        {
+            _contenderGenerator.Init();
+            for (int i = 0; i < AmountOfContenders; i++)
             {
-                line = sr.ReadLine();
-                _contenders.Add(i, line);
+                _contenders.Add(_contenderGenerator.GenerateContender());
             }
-            sr.Close();
         }
 
         /// <summary>
@@ -34,30 +34,16 @@ namespace PickyBrideProblem
         public IContender InviteContender()
         {
             if (_contenders.Count <= 0) return null;
-            Random rnd = new Random();
-            int minContendersMark = 1;
-            int maxContendersMark = 100;
-            while (true)
-            {
-                int value = rnd.Next(minContendersMark, maxContendersMark + 1);
-                if (_contenders.ContainsKey(value))
-                {
-                    Contender contender = new Contender(_contenders[value], value);
-                    Console.WriteLine(contender.Name);
-                    _exContenders.Add(contender.Name, contender.Mark);
-                    _contenders.Remove(value);
-                    return (IContender)contender;
-                }
-                else
-                {
-                    continue;
-                }
-            }
+            Contender contender = _contenders[0];
+            _contenders.RemoveAt(0);
+            _exContenders.Add(contender.Name, contender.Mark);
+            Console.WriteLine(contender.Name);
+            return (IContender)contender;
         }
 
         public bool IsInHall(string name)
         {
-            return _contenders.ContainsValue(name);
+            return !(_exContenders.ContainsKey(name));
         }
 
         public int GetMarkForFriend(string name)
@@ -76,6 +62,6 @@ namespace PickyBrideProblem
                 _selectionIsFinished = true;
                 return _exContenders[name];
             }
-        }   
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace PickyBrideProblem
         int AmountOfContenders { get; }
         IContender InviteContender();
         int GetMarkForPrincess(string name);
+        void Init();
     }
 }

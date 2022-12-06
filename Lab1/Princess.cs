@@ -1,22 +1,24 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PickyBrideProblem
 {
     /// <summary>
     /// Princess wants to get married successfully.
     /// </summary>
-    class Princess
+    class Princess : IHostedService
     {
         private IHallForPrincess _hall;
         private Friend _friend;
         //  sorted list of contenders, who was not chosen by princess 
         private readonly List<IContender> _exContenders;
         private int _levelHappinessPrincess;
-        private const int LowerLimitCoolnessOfContender = 50;
-        private const int LevelHappinessUnmarriedPrincess = 10;
-        private const int PrincessIsUnhappy = 0;
+        private IHostApplicationLifetime _lifeTime;
 
         public Princess(IHallForPrincess hall, Friend friend)
         {
@@ -62,6 +64,7 @@ namespace PickyBrideProblem
         /// </summary>
         public void SelectBridegroom()
         {
+            _hall.Init();
             IContender contender;
             // Princess skiped 30% contenders
             const double partSkipedContenders = 0.3;
@@ -91,16 +94,55 @@ namespace PickyBrideProblem
         /// </summary>
         private void ChooseContender(IContender contender)
         {
+            const int PrincessIsUnhappy = 0;
+            const int LevelHappinessPrincessMarriedFirstContender = 20;
+            const int LevelHappinessPrincessMarriedThirdContender = 50;
+            const int LevelHappinessPrincessMarriedFifthContender = 100;
             if (contender == null)
             {
-                _levelHappinessPrincess = LevelHappinessUnmarriedPrincess;
+                _levelHappinessPrincess = PrincessIsUnhappy;
+                return;
+            }
+            int mark = _hall.GetMarkForPrincess(contender.Name);
+            if (mark == 100)
+            {
+                _levelHappinessPrincess = LevelHappinessPrincessMarriedFirstContender;
+            }
+            else if (mark == 98)
+            {
+                _levelHappinessPrincess = LevelHappinessPrincessMarriedThirdContender;
+            }
+            else if (mark == 96)
+            {
+                _levelHappinessPrincess = LevelHappinessPrincessMarriedFifthContender;
             }
             else
             {
-                int mark = _hall.GetMarkForPrincess(contender.Name);
-                _levelHappinessPrincess = (mark > LowerLimitCoolnessOfContender) ? mark : PrincessIsUnhappy;
+                _levelHappinessPrincess = PrincessIsUnhappy;
             }
-            Console.WriteLine(_levelHappinessPrincess);
+        }
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                SelectBridegroom();
+                Console.WriteLine(_levelHappinessPrincess);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                _lifeTime.StopApplication();
+            }
+            return Task.CompletedTask;
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
         }
     }
 }
