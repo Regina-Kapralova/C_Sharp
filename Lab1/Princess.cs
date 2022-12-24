@@ -11,12 +11,13 @@ namespace PickyBrideProblem
     /// <summary>
     /// Princess wants to get married successfully.
     /// </summary>
-    class Princess : IHostedService
+    public class Princess : IHostedService
     {
         private IHallForPrincess _hall;
         private Friend _friend;
         //  sorted list of contenders, who was not chosen by princess 
         private readonly List<IContender> _exContenders;
+        private int AmountOfExContenders;
         private int _levelHappinessPrincess;
         private IHostApplicationLifetime _lifeTime;
 
@@ -25,6 +26,7 @@ namespace PickyBrideProblem
             _hall = hall;
             _friend = friend;
             _exContenders = new List<IContender>();
+            AmountOfExContenders = 0;
         }
 
         /// <summary>
@@ -38,6 +40,7 @@ namespace PickyBrideProblem
             if (end > 0 && _friend.Compare(contender, _exContenders[0]) != contender)
             {
                 _exContenders.Insert(0, contender);
+                AmountOfExContenders++;
                 return;
             }
             // using binary search, find position for current contender in sortered list
@@ -57,6 +60,7 @@ namespace PickyBrideProblem
             }
             // insert current contender in list on finded position
             _exContenders.Insert(end, contender);
+            AmountOfExContenders++;
         }
 
         /// <summary>
@@ -68,14 +72,15 @@ namespace PickyBrideProblem
             IContender contender;
             // Princess skiped 30% contenders
             const double partSkipedContenders = 0.3;
-            for (int i = 1; i < partSkipedContenders * _hall.AmountOfContenders; i++)
+            for (int i = 1; i <= partSkipedContenders * _hall.AmountOfContenders; i++)
             {
                 contender = _hall.InviteContender();
                 SkipContender(contender);
             }
             // Then princess find contender that better than _exContenders[_exContenders.Count - 2]
-            while ((contender = _hall.InviteContender()) != null)
+            while (AmountOfExContenders < _hall.AmountOfContenders)
             {
+                contender = _hall.InviteContender();
                 if (_friend.Compare(contender, _exContenders[_exContenders.Count - 2]) == contender)
                 {
                     // if finded, get married
@@ -95,12 +100,13 @@ namespace PickyBrideProblem
         private void ChooseContender(IContender contender)
         {
             const int PrincessIsUnhappy = 0;
+            const int LevelHappinessUnmarriedPrincess = 10;
             const int LevelHappinessPrincessMarriedFirstContender = 20;
             const int LevelHappinessPrincessMarriedThirdContender = 50;
             const int LevelHappinessPrincessMarriedFifthContender = 100;
             if (contender == null)
             {
-                _levelHappinessPrincess = PrincessIsUnhappy;
+                _levelHappinessPrincess = LevelHappinessUnmarriedPrincess;
                 return;
             }
             int mark = _hall.GetMarkForPrincess(contender.Name);
@@ -120,6 +126,11 @@ namespace PickyBrideProblem
             {
                 _levelHappinessPrincess = PrincessIsUnhappy;
             }
+        }
+
+        public int GetLevelHappiness()
+        {
+            return _levelHappinessPrincess;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

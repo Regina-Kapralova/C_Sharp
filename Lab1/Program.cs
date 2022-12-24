@@ -4,9 +4,9 @@ using System;
 using System.IO;
 namespace PickyBrideProblem
 {
-    class Program
+    public class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
@@ -21,7 +21,7 @@ namespace PickyBrideProblem
                     services.AddScoped<IHallForPrincess>(sp => sp.GetRequiredService<Hall>());
                     services.AddScoped<IHallForFriend>(sp => sp.GetRequiredService<Hall>());
                     services.AddScoped<Friend>();
-                    services.AddScoped<ContenderGenerator>();
+                    services.AddScoped<IContenderGenerator, ContenderGenerator>();
                 });
         }
     }
