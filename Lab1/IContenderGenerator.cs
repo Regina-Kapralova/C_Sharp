@@ -10,5 +10,5 @@ namespace PickyBrideProblem
     {
         void Init(int AmountOfContenders);
         List<Contender> InitContenderList();           
-        }
     }
+}

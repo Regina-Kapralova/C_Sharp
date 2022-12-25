@@ -9,11 +9,22 @@ namespace Tests
 {
     class PrincessTest
     {
-        private int AmountOfContenders = 100;
+        private readonly int _AmountOfContenders = 100;
+        private Princess _princess;
+
+        private void Init(List<Contender> contenders)
+        {
+            Mock<IContenderGenerator> contenderGenerator = new Mock<IContenderGenerator>();
+            contenderGenerator.Setup(contenderGenerator => contenderGenerator.InitContenderList()).Returns(contenders);
+            Hall hall = new Hall(contenderGenerator.Object);
+            Friend friend = new Friend(hall);
+            _princess = new Princess(hall, friend);
+        }
+
         List<Contender> ContenderListForUnmarriedPrincess()
         {
             List<Contender> contendersForUnmarriedPrincess = new List<Contender>();
-            for (int i = AmountOfContenders; i > 0; i--)
+            for (int i = _AmountOfContenders; i > 0; i--)
             {
                 string name = "Contender_" + i;
                 contendersForUnmarriedPrincess.Add(new Contender(name, i));
@@ -24,52 +35,42 @@ namespace Tests
         [Test]
         public void PrincessUnmarried()
         {
-            Mock<IContenderGenerator> contenderGenerator = new Mock<IContenderGenerator>();
-            List<Contender> contendersForUnmarriedPrincess = ContenderListForUnmarriedPrincess();
-            contenderGenerator.Setup(contenderGenerator => contenderGenerator.InitContenderList()).Returns(contendersForUnmarriedPrincess);
-            Hall hall = new Hall(contenderGenerator.Object);
-            Friend friend = new Friend(hall);
-            Princess princess = new Princess(hall, friend);
-            princess.SelectBridegroom();
+            Init(ContenderListForUnmarriedPrincess());
+            _princess.SelectBridegroom();
             const int LevelHappinessUnmarriedPrincess = 10;
-            princess.GetLevelHappiness().Should().Be(LevelHappinessUnmarriedPrincess);
+            _princess.GetLevelHappiness().Should().Be(LevelHappinessUnmarriedPrincess);
         }
 
-        List<Contender> ContenderListForPrincessMarriedFirstContender()
+        List<Contender> ContenderListForPrincessMarriedContenderWithMark100()
         {
-            List<Contender> contendersForPrincessMarriedFirstContender = new List<Contender>();
-            for (int i = 1; i <= 0.3 * AmountOfContenders; i++)
+            List<Contender> contendersForPrincessMarriedContenderWithMark100 = new List<Contender>();
+            for (int i = 1; i <= 0.3 * _AmountOfContenders; i++)
             {
                 string name = "Contender_" + i;
-                contendersForPrincessMarriedFirstContender.Add(new Contender(name, i));
+                contendersForPrincessMarriedContenderWithMark100.Add(new Contender(name, i));
             }
-            contendersForPrincessMarriedFirstContender.Add(new Contender("Contender_100", 100));
-            for (int i = (int)0.3 * AmountOfContenders + 1; i <= AmountOfContenders - 1; i++)
+            contendersForPrincessMarriedContenderWithMark100.Add(new Contender("Contender_100", 100));
+            for (int i = (int)0.3 * _AmountOfContenders + 1; i <= _AmountOfContenders - 1; i++)
             {
                 string name = "Contender_" + i;
-                contendersForPrincessMarriedFirstContender.Add(new Contender(name, i));
+                contendersForPrincessMarriedContenderWithMark100.Add(new Contender(name, i));
             }
-            return contendersForPrincessMarriedFirstContender;
+            return contendersForPrincessMarriedContenderWithMark100;
         }
 
         [Test]
-        public void PrincessMarriedFirstContender()
+        public void PrincessMarriedContenderWithMark100()
         {
-            Mock<IContenderGenerator> contenderGenerator = new Mock<IContenderGenerator>();
-            List<Contender> contendersForPrincessMarriedFirstContender = ContenderListForPrincessMarriedFirstContender();
-            contenderGenerator.Setup(contenderGenerator => contenderGenerator.InitContenderList()).Returns(contendersForPrincessMarriedFirstContender);
-            Hall hall = new Hall(contenderGenerator.Object);
-            Friend friend = new Friend(hall);
-            Princess princess = new Princess(hall, friend);
-            princess.SelectBridegroom();
+            Init(ContenderListForPrincessMarriedContenderWithMark100());
+            _princess.SelectBridegroom();
             const int LevelHappinessPrincessMarriedFirstContender = 20;
-            princess.GetLevelHappiness().Should().Be(LevelHappinessPrincessMarriedFirstContender);
+            _princess.GetLevelHappiness().Should().Be(LevelHappinessPrincessMarriedFirstContender);
         }
 
         List<Contender> ContenderListForMarriedBadContender()
         {
             List<Contender> contendersForUnhappyPrincess = new List<Contender>();
-            for (int i = 1; i <= AmountOfContenders; i++)
+            for (int i = 1; i <= _AmountOfContenders; i++)
             {
                 string name = "Contender_" + i;
                 contendersForUnhappyPrincess.Add(new Contender(name, i));
@@ -80,15 +81,10 @@ namespace Tests
         [Test]
         public void PrincessMarriedBadContender()
         {
-            Mock<IContenderGenerator> contenderGenerator = new Mock<IContenderGenerator>();
-            List<Contender> contendersForUnhappyPrincess = ContenderListForMarriedBadContender();
-            contenderGenerator.Setup(contenderGenerator => contenderGenerator.InitContenderList()).Returns(contendersForUnhappyPrincess);
-            Hall hall = new Hall(contenderGenerator.Object);
-            Friend friend = new Friend(hall);
-            Princess princess = new Princess(hall, friend);
-            princess.SelectBridegroom();
+            Init(ContenderListForMarriedBadContender());
+            _princess.SelectBridegroom();
             const int PrincessIsUnhappy = 0;
-            princess.GetLevelHappiness().Should().Be(PrincessIsUnhappy);
+            _princess.GetLevelHappiness().Should().Be(PrincessIsUnhappy);
         }
 
         List<Contender> ContenderListForThrowExceptionTest()
@@ -99,15 +95,10 @@ namespace Tests
         }
 
         [Test]
-        public void ThrowExceptionTest()
+        public void ThrowExceptionWhenNoMoreContendersTest()
         {
-            Mock<IContenderGenerator> contenderGenerator = new Mock<IContenderGenerator>();
-            List<Contender> contendersForThrowExceptionTest = ContenderListForThrowExceptionTest();
-            contenderGenerator.Setup(contenderGenerator => contenderGenerator.InitContenderList()).Returns(contendersForThrowExceptionTest);
-            Hall hall = new Hall(contenderGenerator.Object);
-            Friend friend = new Friend(hall);
-            Princess princess = new Princess(hall, friend);
-            princess.Invoking(f => f.SelectBridegroom())
+            Init(ContenderListForThrowExceptionTest());
+            _princess.Invoking(f => f.SelectBridegroom())
                   .Should().Throw<Exception>().WithMessage("Error: no more contenders!");
         }
     }

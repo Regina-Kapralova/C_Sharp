@@ -25,6 +25,7 @@ namespace Tests
             hall.Init();
             friend = new Friend(hall);
         }
+
         List<Contender> CreateContenderList()
         {
             var contenders = new List<Contender>();
@@ -37,23 +38,23 @@ namespace Tests
         [Test]
         public void CompareTest()
         {
-            IContender firstContender = hall.InviteContender();
-            IContender secondContender = hall.InviteContender();
-            IContender thirdContender = hall.InviteContender();
+            var worseContender = hall.InviteContender();
+            var middleContender = hall.InviteContender();
+            var betterContender = hall.InviteContender();
 
-            IContender bestContender = friend.Compare(firstContender, secondContender);
-            bestContender.Should().Be(secondContender);
+            var bestContender = friend.Compare(worseContender, middleContender);
+            bestContender.Should().Be(middleContender);
 
-            bestContender = friend.Compare(thirdContender, secondContender);
-            bestContender.Should().Be(thirdContender);
+            bestContender = friend.Compare(betterContender, middleContender);
+            bestContender.Should().Be(betterContender);
         }
 
         [Test]
         public void ThrowExceptionTest()
         {
-            IContender invitedContender = hall.InviteContender();
-            Contender firstUninvitedContender = contenderList[0];
-            Contender secondUninvitedContender = contenderList[1];
+            var invitedContender = hall.InviteContender();
+            var firstUninvitedContender = contenderList[0];
+            var secondUninvitedContender = contenderList[1];
 
             friend.Invoking(f => f.Compare(invitedContender, firstUninvitedContender))
                 .Should().Throw<Exception>().WithMessage("Error: contenders cannot be compared!");
