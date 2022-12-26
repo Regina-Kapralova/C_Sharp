@@ -58,12 +58,12 @@ namespace Tests
         [Test]
         public void IsInHallTest()
         {
-            hall.IsInHall("Артём").Should().Be(true);
+            hall.IsInHall("Артём").Should().BeTrue();
             hall.InviteContender();
-            hall.IsInHall("Артём").Should().Be(false);
-            hall.IsInHall("Виктор").Should().Be(true);
+            hall.IsInHall("Артём").Should().BeFalse();
+            hall.IsInHall("Виктор").Should().BeTrue();
             hall.InviteContender();
-            hall.IsInHall("Виктор").Should().Be(false);
+            hall.IsInHall("Виктор").Should().BeFalse();
         }
 
         [Test]

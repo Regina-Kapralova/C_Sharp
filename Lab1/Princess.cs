@@ -17,7 +17,7 @@ namespace PickyBrideProblem
         private Friend _friend;
         //  sorted list of contenders, who was not chosen by princess 
         private readonly List<IContender> _exContenders;
-        private int _AmountOfExContenders;
+        private int _amountOfExContenders;
         private int _levelHappinessPrincess;
         private IHostApplicationLifetime _lifeTime;
 
@@ -26,7 +26,7 @@ namespace PickyBrideProblem
             _hall = hall;
             _friend = friend;
             _exContenders = new List<IContender>();
-            _AmountOfExContenders = 0;
+            _amountOfExContenders = 0;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace PickyBrideProblem
             if (end > 0 && _friend.Compare(contender, _exContenders[0]) != contender)
             {
                 _exContenders.Insert(0, contender);
-                _AmountOfExContenders++;
+                _amountOfExContenders++;
                 return;
             }
             // using binary search, find position for current contender in sortered list
@@ -60,7 +60,7 @@ namespace PickyBrideProblem
             }
             // insert current contender in list on finded position
             _exContenders.Insert(end, contender);
-            _AmountOfExContenders++;
+            _amountOfExContenders++;
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace PickyBrideProblem
                 SkipContender(contender);
             }
             // Then princess find contender that better than _exContenders[_exContenders.Count - 2]
-            while (_AmountOfExContenders < _hall.AmountOfContenders)
+            while (_amountOfExContenders < _hall.AmountOfContenders)
             {
                 contender = _hall.InviteContender();
                 if (_friend.Compare(contender, _exContenders[_exContenders.Count - 2]) == contender)

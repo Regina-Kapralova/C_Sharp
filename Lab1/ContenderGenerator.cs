@@ -10,7 +10,6 @@ namespace PickyBrideProblem
     public class ContenderGenerator : IContenderGenerator
     {
         private readonly Dictionary<int, string> _contenders = new Dictionary<int, string>();
-        private List<Contender> _contendersForHall = new List<Contender>();
 
         public void Init(int amountOfContenders)
         {
@@ -28,6 +27,7 @@ namespace PickyBrideProblem
 
         public List<Contender> InitContenderList()
         {
+            List<Contender> _contendersForHall = new List<Contender>();
             Random rnd = new Random();
             int minContendersMark = 1;
             int maxContendersMark = 100;
