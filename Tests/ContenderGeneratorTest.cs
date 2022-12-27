@@ -41,23 +41,21 @@ namespace Tests
             _contenderList.Count.Should().Be(_amountOfContenders);
         }
 
-        [Test]
-        public void ThrowExceptionCreateListOfNegativeAmountContendersTest()
+        [TestCase(-1)]
+        [TestCase(-5)]
+        public void ThrowExceptionCreateListOfNegativeAmountContendersTest(int amountOfContenders)
         {
             ContenderGenerator newContenderGenerator = new ContenderGenerator();
-            newContenderGenerator.Invoking(f => f.Init(-1))
-                .Should().Throw<Exception>().WithMessage("Error: impossible to create list of less than 0 or more than 100 Contenders!");
-            newContenderGenerator.Invoking(f => f.Init(-5))
+            newContenderGenerator.Invoking(f => f.Init(amountOfContenders))
                 .Should().Throw<Exception>().WithMessage("Error: impossible to create list of less than 0 or more than 100 Contenders!");
         }
 
-        [Test]
-        public void ThrowExceptionCreateListOfAmountMore100ContendersTest()
+        [TestCase(101)]
+        [TestCase(150)]
+        public void ThrowExceptionCreateListOfAmountMore100ContendersTest(int amountOfContenders)
         {
             ContenderGenerator newContenderGenerator = new ContenderGenerator();
-            newContenderGenerator.Invoking(f => f.Init(101))
-                .Should().Throw<Exception>().WithMessage("Error: impossible to create list of less than 0 or more than 100 Contenders!");
-            newContenderGenerator.Invoking(f => f.Init(150))
+            newContenderGenerator.Invoking(f => f.Init(amountOfContenders))
                 .Should().Throw<Exception>().WithMessage("Error: impossible to create list of less than 0 or more than 100 Contenders!");
         }
     }

@@ -9,7 +9,7 @@ namespace PickyBrideProblem
 {
     public class ContenderGenerator : IContenderGenerator
     {
-        private readonly Dictionary<int, string> _contenders = new Dictionary<int, string>();
+=        List<Contender> _contenders = new List<Contender>();
 
         public void Init(int amountOfContenders)
         {
@@ -20,36 +20,19 @@ namespace PickyBrideProblem
             for (int i = 1; i <= amountOfContenders; i++)
             {
                 line = sr.ReadLine();
-                _contenders.Add(i, line);
+                Contender contender = new Contender(line, i);
+                _contenders.Add(contender);
             }
             sr.Close();
         }
 
         public List<Contender> InitContenderList()
         {
-            List<Contender> _contendersForHall = new List<Contender>();
             Random rnd = new Random();
             int minContendersMark = 1;
             int maxContendersMark = 100;
-            while (_contenders.Count > 0) 
-            {
-                while (true)
-                {
-                    int value = rnd.Next(minContendersMark, maxContendersMark + 1);
-                    if (_contenders.ContainsKey(value))
-                    {
-                        Contender contender = new Contender(_contenders[value], value);
-                        _contendersForHall.Add(contender);
-                        _contenders.Remove(value);
-                        break;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-            }
-            return _contendersForHall;
+            var _contendersForHall = _contenders.OrderBy(x => rnd.Next(minContendersMark, maxContendersMark + 1));
+            return (List<Contender>)_contendersForHall;
         }
     }
 }

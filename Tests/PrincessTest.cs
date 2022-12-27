@@ -9,7 +9,7 @@ namespace Tests
 {
     class PrincessTest
     {
-        private readonly int _AmountOfContenders = 100;
+        private readonly int _amountOfContenders = 100;
         private Princess _princess;
 
         private void Init(List<Contender> contenders)
@@ -24,7 +24,7 @@ namespace Tests
         List<Contender> ContenderListForUnmarriedPrincess()
         {
             List<Contender> contendersForUnmarriedPrincess = new List<Contender>();
-            for (int i = _AmountOfContenders; i > 0; i--)
+            for (int i = _amountOfContenders; i > 0; i--)
             {
                 string name = "Contender_" + i;
                 contendersForUnmarriedPrincess.Add(new Contender(name, i));
@@ -44,13 +44,13 @@ namespace Tests
         List<Contender> ContenderListForPrincessMarriedContenderWithMark100()
         {
             List<Contender> contendersForPrincessMarriedContenderWithMark100 = new List<Contender>();
-            for (int i = 1; i <= 0.3 * _AmountOfContenders; i++)
+            for (int i = 1; i <= 0.3 * _amountOfContenders; i++)
             {
                 string name = "Contender_" + i;
                 contendersForPrincessMarriedContenderWithMark100.Add(new Contender(name, i));
             }
             contendersForPrincessMarriedContenderWithMark100.Add(new Contender("Contender_100", 100));
-            for (int i = (int)0.3 * _AmountOfContenders + 1; i <= _AmountOfContenders - 1; i++)
+            for (int i = (int)0.3 * _amountOfContenders + 1; i <= _amountOfContenders - 1; i++)
             {
                 string name = "Contender_" + i;
                 contendersForPrincessMarriedContenderWithMark100.Add(new Contender(name, i));
@@ -70,7 +70,7 @@ namespace Tests
         List<Contender> ContenderListForMarriedBadContender()
         {
             List<Contender> contendersForUnhappyPrincess = new List<Contender>();
-            for (int i = 1; i <= _AmountOfContenders; i++)
+            for (int i = 1; i <= _amountOfContenders; i++)
             {
                 string name = "Contender_" + i;
                 contendersForUnhappyPrincess.Add(new Contender(name, i));
