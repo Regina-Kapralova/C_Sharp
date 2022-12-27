@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace PickyBrideProblem
 {
-    public interface IHallForFriend
+    public interface IContenderGenerator
     {
-        bool IsInHall(string name);
-        int GetMarkForFriend(string name);
+        void Init(int AmountOfContenders);
+        List<Contender> InitContenderList();           
     }
 }

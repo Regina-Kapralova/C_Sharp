@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PickyBrideProblem
 {
-    interface IHallForPrincess
+    public interface IHallForPrincess
     {
         int AmountOfContenders { get; }
         IContender InviteContender();
